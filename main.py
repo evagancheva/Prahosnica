@@ -3,18 +3,50 @@ import pygame
 from board.board import Board
 from board.player import Player
 from constants import (SCREEN_WIDTH, SCREEN_HEIGHT, BEIGE, DARK_GREY, FPS, TILE_SIZE, SPECIAL_TILES, INFO_PANEL_WIDTH,
-                       INFO_PANEL_X)
+                       INFO_PANEL_X, WHITE)
 from utils.renderer import draw_board, highlight_possible_moves, render_ui
 
 pygame.init()
 window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption(f"Прахосница {FPS}fps")
 
+def choose_num_players(window):
+    pygame.font.init()
+    font = pygame.font.Font(None, 50)
+    options = [2, 3, 4]
+
+    while True:
+        window.fill(DARK_GREY)
+        text = font.render("Choose players count:", True, WHITE)
+        window.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, 100))
+
+        buttons = []
+        for i, num in enumerate(options):
+            btn_x = SCREEN_WIDTH // 2 - 50
+            btn_y = 200 + i * 80
+            btn_rect = pygame.Rect(btn_x, btn_y, 100, 60)
+            pygame.draw.rect(window, BEIGE, btn_rect)
+            text = font.render(str(num), True, DARK_GREY)
+            window.blit(text, (btn_x + 35, btn_y + 15))
+            buttons.append((btn_rect, num))
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                for btn_rect, num in buttons:
+                    if btn_rect.collidepoint(event.pos):
+                        return num
 
 def initialize_game():
+    num_players = choose_num_players(window)
     board = Board()
-    players = [Player(row, col, i) for i, (row, col) in enumerate(SPECIAL_TILES.keys())]
-    return board, players, 0, None, False  # (board, players, current_player, dice_result, rolling_dice)
+    start_positions = list(SPECIAL_TILES.keys())[:num_players]
+    players = [Player(row, col, i) for i, (row, col) in enumerate(start_positions)]
+    return board, players, 0, None, False
 
 
 def handle_events(players, current_player, rolling_dice, board):
