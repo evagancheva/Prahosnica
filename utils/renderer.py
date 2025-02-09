@@ -59,16 +59,13 @@ def highlight_possible_moves(screen, possible_moves):
         pygame.draw.rect(screen, HIGHLIGHT_COLOR, (x, y, TILE_SIZE, TILE_SIZE), 3)
 
 
-def render_ui(screen, current_player, dice_result):
+def render_ui(screen, current_player, dice):
     pygame.draw.rect(screen, (50, 50, 50), (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, BOARD_WIDTH))
 
     player_text = FONT.render(f"Player {current_player + 1}", True, PLAYER_COLORS[current_player])
     screen.blit(player_text, (INFO_PANEL_X + 50, 50))
 
-    if dice_result is not None:
-        dice_image = pygame.image.load(DICE_IMAGES[dice_result])
-        dice_image = pygame.transform.scale(dice_image, (DICE_SIZE, DICE_SIZE))
-        screen.blit(dice_image, (INFO_PANEL_X + 110, 150))
+    dice.draw(screen)
 
     instructions = FONT.render("Click to Roll", True, TEXT_COLOR)
     screen.blit(instructions, (INFO_PANEL_X + 50, 250))

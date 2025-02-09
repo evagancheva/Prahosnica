@@ -10,14 +10,10 @@ class Player:
         self.col = start_col
         self.color = PLAYER_COLORS[player_id]
         self.possible_moves = []
-        self.dice_result = None
 
-    def roll_dice(self):
-        self.dice_result = random.randint(DICE_MIN, DICE_MAX)
-        return self.dice_result
 
-    def find_possible_moves(self, board):
-        if self.dice_result is None:
+    def find_possible_moves(self, board, dice_result):
+        if dice_result is None:
             return
 
         self.possible_moves = []
@@ -47,7 +43,7 @@ class Player:
                 if 0 <= new_row < len(board.board) and 0 <= new_col < len(board.board[0]):
                     dfs(new_row, new_col, moves_left - 1,  visited.copy())
 
-        dfs(self.row, self.col, self.dice_result, set())
+        dfs(self.row, self.col, dice_result, set())
 
     def move_to(self, row, col):
         if (row, col) in self.possible_moves:

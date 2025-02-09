@@ -112,3 +112,6 @@ DICE_ROLL_FRAMES = [
 
 DICE_ROLL_SOUND = "images/dice/audio_roll_aud.mp3"
 DICE_STOP_SOUND = "images/dice/roll_stop_aud.mp3"
+
+DICE_X = INFO_PANEL_X + 110
+DICE_Y = 150
