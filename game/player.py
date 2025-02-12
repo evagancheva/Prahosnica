@@ -1,7 +1,6 @@
-import random
 import pygame
 
-from constants import TILE_SIZE, PLAYER_COLORS, DICE_MIN, DICE_MAX, PLAYER_RADIUS
+from constants import TILE_SIZE, PLAYER_COLORS, PLAYER_RADIUS
 
 
 class Player:
@@ -9,8 +8,9 @@ class Player:
         self.row = start_row
         self.col = start_col
         self.color = PLAYER_COLORS[player_id]
+        self.id = player_id
         self.possible_moves = []
-
+        self.money = 1000
 
     def find_possible_moves(self, board, dice_result):
         if dice_result is None:
@@ -18,16 +18,11 @@ class Player:
 
         self.possible_moves = []
 
-
-        def dfs(row, col, moves_left, visited):
+        def dfs(row, col, moves_left):
             if moves_left == 0:
                 if (row, col) != (self.row, self.col):
                     self.possible_moves.append((row, col))
                 return
-            if (row, col) in visited:
-                return
-
-            visited.add((row, col))
 
             for direction in board.board[row][col].arrow_directions:
                 new_row, new_col = row, col
@@ -41,9 +36,9 @@ class Player:
                     new_row += 1
 
                 if 0 <= new_row < len(board.board) and 0 <= new_col < len(board.board[0]):
-                    dfs(new_row, new_col, moves_left - 1,  visited.copy())
+                    dfs(new_row, new_col, moves_left - 1)
 
-        dfs(self.row, self.col, dice_result, set())
+        dfs(self.row, self.col, dice_result)
 
     def move_to(self, row, col):
         if (row, col) in self.possible_moves:
@@ -55,4 +50,13 @@ class Player:
 
         x = self.col * TILE_SIZE + TILE_SIZE // 2
         y = self.row * TILE_SIZE + TILE_SIZE // 2
-        pygame.draw.circle(screen, self.color, (x, y), PLAYER_RADIUS )
+        pygame.draw.circle(screen, self.color, (x, y), PLAYER_RADIUS)
+
+    def spend_money(self, amount):
+        self.money -= amount
+
+    def earn_money(self, amount):
+        self.money += amount
+
+    def is_winner(self):
+        return self.money <= 0

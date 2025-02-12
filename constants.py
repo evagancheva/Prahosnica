@@ -12,6 +12,7 @@ DICE_SIZE = 80
 BEIGE = (245, 245, 220)
 DARK_GREY = (50, 50, 50)
 WHITE = (255, 255, 255)
+PURPLE = (128, 0, 128)
 GRID_COLOR = (0, 0, 0)
 GRID_WIDTH = 2
 
@@ -25,6 +26,13 @@ FIELD_IMAGES = {
     "bracelet": "images/tiles/bracelet.png",
     "long-boot": "images/tiles/long-boot.png",
 }
+FIELD_COSTS = {
+    "bag": 30,
+    "bracelet": 20,
+    "perfume": 50,
+    "jewellery": 80,
+    "long-boot": 40
+}
 ARROW_IMAGES = {
     "left": "images/tiles/left-arrow.png",
     "right": "images/tiles/right-arrow.png",
@@ -32,7 +40,7 @@ ARROW_IMAGES = {
     "down": "images/tiles/down-arrow.png",
 }
 MIDDLE_IMAGE = "images/tiles/middle.png"
-
+# nqkuv obekt
 BOARD_LAYOUT = [
     ["bag", "bracelet", "perfume", "neutral", "mad", "jewellery", "perfume", "bag", "bracelet", "long-boot"],
     ["long-boot", "smiley", "perfume", "mad", "smiley", "mad", "bag", "smiley", "neutral", "jewellery"],
@@ -60,16 +68,16 @@ ARROW_LAYOUT = [
     [["up"], ["up", "left"], ["left"], ["left"], ["up", "left"], ["left"], ["left"], ["left"], ["left"], ["left"]]
 ]
 
-SPECIAL_TILES = {
+START_TILES = {
     (2, 2): (255, 0, 0),
     (2, 7): (255, 255, 0),
     (7, 7): (0, 0, 255),
     (7, 2): (0, 255, 0)
 
 }
-PLAYER_COLORS = list(SPECIAL_TILES.values())
+PLAYER_COLORS = list(START_TILES.values())
 
-PLAYER_START_POSITIONS = list(SPECIAL_TILES.keys())
+PLAYER_START_POSITIONS = list(START_TILES.keys())
 
 NO_GRID_TILES = {
     (3, 2), (2, 3), (6, 2), (2, 6), (3, 7), (7, 3), (6, 7), (7, 6)
@@ -87,7 +95,6 @@ DICE_MIN = 1
 DICE_MAX = 6
 
 HIGHLIGHT_COLOR = (0, 255, 255)
-
 TEXT_COLOR = (255, 255, 255)
 FONT_SIZE = 50
 
@@ -121,5 +128,36 @@ BUTTON_WIDTH = 100
 BUTTON_HEIGHT = 60
 BUTTON_SPACING = 80
 BUTTON_X = SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2
-TEXT_X = BUTTON_X+35
+TEXT_X = BUTTON_X + 35
 TEXT_OFFSET_Y = 15
+
+MIN_MONEY = 20
+MAX_MONEY = 80
+FLASH_CARD_COLORS = {
+    "smiley": (255, 150, 150),
+    "neutral": (255, 225, 120),
+    "mad": (150, 255, 150)
+}
+FLASH_CARD_MESSAGES = {
+    "smiley": [
+        "Oh no!You bought too much ice cream!",
+        "You spent all your money on a useless gadget!",
+        "Oops!You forgot to take your change at the store!",
+        "You just HAD to order another round of pizza!",
+        "Made a ‘great’ investment in a fake cryptocurrency!",
+        "Your bet didn’t go as planned…",
+        "You found some money on the street!",
+        "A random stranger gifted you some cash!",
+
+    ],
+    "mad": [
+        "Parking ticket!Pay up!",
+        "Lost your wallet… but a kind person returned it!",
+        "You found some money on the street!",
+        "You sold your old clothes for a fortune!",
+        "Your boss gave you a surprise bonus!",
+        "Someone paid big money for your childhood drawing!",
+        "Won a raffle!Lucky you!",
+        "A stranger mistook you for a celebrity and gave you a tip!",
+    ]
+}
