@@ -40,6 +40,7 @@ ARROW_IMAGES = {
     "down": "images/tiles/down-arrow.png",
 }
 MIDDLE_IMAGE = "images/tiles/middle.png"
+
 # nqkuv obekt
 BOARD_LAYOUT = [
     ["bag", "bracelet", "perfume", "neutral", "mad", "jewellery", "perfume", "bag", "bracelet", "long-boot"],

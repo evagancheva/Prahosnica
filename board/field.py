@@ -25,6 +25,7 @@ class Field:
             if self.field_type == "smiley":
                 message = random.choice(FLASH_CARD_MESSAGES["smiley"])
                 player.spend_money(amount)
+
                 renderer.show_flash_card(f"{message} Lost {amount} coins!", card_color)
 
             elif self.field_type == "mad":
@@ -36,8 +37,8 @@ class Field:
                 if random.choice([True, False]):
                     message = random.choice(FLASH_CARD_MESSAGES["smiley"])
                     player.spend_money(amount)
-                    renderer.show_flash_card(f"{message} Lost {amount} coins!", card_color)
+                    renderer.show_flash_card(f"{message}\nLost {amount} coins!", card_color)
                 else:
                     message = random.choice(FLASH_CARD_MESSAGES["mad"])
                     player.earn_money(amount)
-                    renderer.show_flash_card(f"{message} Gained {amount} coins!", card_color)
+                    renderer.show_flash_card(f"{message}\nGained {amount} coins!", card_color)
