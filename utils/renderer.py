@@ -1,8 +1,9 @@
 import pygame
+import pygame_menu
 
-from constants import (GRID_COLOR, GRID_WIDTH, MIDDLE_IMAGE, START_TILES, NO_GRID_TILES, ARROW_SIZE, ARROW_OFFSET,
-                       INFO_PANEL_WIDTH, BOARD_WIDTH, INFO_PANEL_X, TEXT_COLOR, FONT_SIZE, PLAYER_COLORS, TILE_SIZE,
-                       HIGHLIGHT_COLOR, SCREEN_HEIGHT, WHITE)
+from constants import (BLACK, GRID_WIDTH, MIDDLE_IMAGE, START_TILES, NO_GRID_TILES, ARROW_SIZE, ARROW_OFFSET,
+                       INFO_PANEL_WIDTH, BOARD_WIDTH, INFO_PANEL_X, FONT_SIZE, PLAYER_COLORS, TILE_SIZE,
+                       HIGHLIGHT_COLOR, SCREEN_HEIGHT, WHITE, FLASH_CARD_WIDTH, FLASH_CARD_HEIGHT)
 
 pygame.font.init()
 FONT = pygame.font.Font(None, FONT_SIZE)
@@ -42,11 +43,11 @@ class Renderer:
                 if (row_index, col_index) in START_TILES:
                     pygame.draw.rect(self.screen, START_TILES[(row_index, col_index)],
                                      (x_position, y_position, TILE_SIZE, TILE_SIZE))
-                    pygame.draw.rect(self.screen, GRID_COLOR, (x_position, y_position, TILE_SIZE, TILE_SIZE),
+                    pygame.draw.rect(self.screen, BLACK, (x_position, y_position, TILE_SIZE, TILE_SIZE),
                                      GRID_WIDTH)
 
                 if field.image and (row_index, col_index) not in NO_GRID_TILES:
-                    pygame.draw.rect(self.screen, GRID_COLOR, (x_position, y_position, TILE_SIZE, TILE_SIZE),
+                    pygame.draw.rect(self.screen, BLACK, (x_position, y_position, TILE_SIZE, TILE_SIZE),
                                      GRID_WIDTH)
                     self.draw_image(field.image, x_position + TILE_SIZE // 5, y_position + TILE_SIZE // 5,
                                     int(TILE_SIZE * 0.6))
@@ -61,63 +62,16 @@ class Renderer:
             x, y = col * TILE_SIZE, row * TILE_SIZE
             pygame.draw.rect(self.screen, HIGHLIGHT_COLOR, (x, y, TILE_SIZE, TILE_SIZE), 3)
 
-    @staticmethod
-    def format_text_for_card(text, font, max_width, max_height):
-        words = text.split(" ")
-        lines = []
-        current_line = ""
+    def show_flash_card(self, card_type, text, color):
+        curr_theme = pygame_menu.Theme(background_color=color, title_background_color=BLACK,
+                                       title_font=pygame_menu.font.FONT_COMIC_NEUE, title_font_color=WHITE,
+                                       widget_font_color=BLACK)
+        flash_menu = pygame_menu.Menu(title=f"{card_type}", width=FLASH_CARD_WIDTH, height=FLASH_CARD_HEIGHT,
+                                      theme=curr_theme)
 
-        for word in words:
-            test_line = current_line + word + " "
-            text_width, _ = font.size(test_line)
-
-            if text_width < max_width - 40: 
-                current_line = test_line
-            else:
-                lines.append(current_line.strip())
-                current_line = word + " "
-
-        lines.append(current_line.strip())  
-        
-        while len(lines) * (font.get_height() + 5) > max_height - 40 and font.get_height() > 10:
-            font = pygame.font.Font(None, font.get_height() - 2)
-            lines = []
-            current_line = ""
-
-            for word in words:
-                test_line = current_line + word + " "
-                text_width, _ = font.size(test_line)
-
-                if text_width < max_width - 40:
-                    current_line = test_line
-                else:
-                    lines.append(current_line.strip())
-                    current_line = word + " "
-
-            lines.append(current_line.strip())
-
-        return lines, font
-
-    def draw_card_background(self, color, x, y, width, height):
-        pygame.draw.rect(self.screen, color, (x, y, width, height), border_radius=15)
-        pygame.draw.rect(self.screen, (0, 0, 0), (x, y, width, height), 3, border_radius=15)
-
-    def show_flash_card(self, text, color):
-        font = pygame.font.Font(None, FONT_SIZE)
-        card_width, card_height = 300, 200
-        card_x, card_y = INFO_PANEL_X // 2 - card_width // 2, BOARD_WIDTH // 2 - card_height // 2
-
-        self.draw_card_background(color, card_x, card_y, card_width, card_height)
-        lines, font = self.format_text_for_card(text, font, card_width, card_height)
-        y_offset = card_y + 40
-        for line in lines:
-            text_surface = font.render(line, True, WHITE)
-            text_rect = text_surface.get_rect(center=(card_x + card_width // 2, y_offset))
-            self.screen.blit(text_surface, text_rect)
-            y_offset += font.get_height() + 5
-
-        pygame.display.flip()
-        pygame.time.delay(3000)
+        flash_menu.add.label(text, font_size=FONT_SIZE - 10, max_char=-1, font_color=BLACK)
+        flash_menu.add.button("OK", flash_menu.disable)
+        flash_menu.mainloop(self.screen)
 
     def render_all_players_money(self, players):
         money_title = FONT.render("Player Balances:", True, (255, 255, 255))
@@ -137,14 +91,6 @@ class Renderer:
 
         dice.draw(self.screen)
 
-        instructions = FONT.render("Click to Roll", True, TEXT_COLOR)
+        instructions = FONT.render("Click to Roll", True, WHITE)
         self.screen.blit(instructions, (INFO_PANEL_X + 50, 250))
         self.render_all_players_money(players)
-
-    def show_player_message(self, player):
-
-        if player.last_message:
-            font = pygame.font.Font(None, FONT_SIZE - 10)
-            message_surface = font.render(player.last_message, True, TEXT_COLOR)
-            message_rect = message_surface.get_rect(center=(INFO_PANEL_X + INFO_PANEL_WIDTH // 2, SCREEN_HEIGHT - 100))
-            self.screen.blit(message_surface, message_rect)

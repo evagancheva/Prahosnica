@@ -13,7 +13,6 @@ class Dice:
         self.roll_sound = pygame.mixer.Sound(DICE_ROLL_SOUND)
 
     def roll(self, screen):
-        # logika ako se metne 6 da ne se smenq playera
         self.animate_roll(screen)
         self.value = random.randint(DICE_MIN, DICE_MAX)
         self.draw(screen)

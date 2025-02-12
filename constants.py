@@ -1,20 +1,26 @@
 BOARD_WIDTH = 800
 INFO_PANEL_WIDTH = 300
 SCREEN_WIDTH = BOARD_WIDTH + INFO_PANEL_WIDTH
-SCREEN_HEIGHT = 800
-TILE_SIZE = 80
-FPS = 60
 INFO_PANEL_X = SCREEN_WIDTH - INFO_PANEL_WIDTH
+SCREEN_HEIGHT = 800
+FLASH_CARD_WIDTH = 450
+FLASH_CARD_HEIGHT = 300
+GRID_WIDTH = 2
+
+TILE_SIZE = 80
+FONT_SIZE = 50
+FPS = 60
+
 PLAYER_RADIUS = TILE_SIZE // 4
 ARROW_SCALE = TILE_SIZE // 3
-DICE_SIZE = 80
 
 BEIGE = (245, 245, 220)
 DARK_GREY = (50, 50, 50)
 WHITE = (255, 255, 255)
 PURPLE = (128, 0, 128)
-GRID_COLOR = (0, 0, 0)
-GRID_WIDTH = 2
+BLACK = (0, 0, 0)
+HIGHLIGHT_COLOR = (0, 255, 255)
+GREEN =(0,100,0)
 
 FIELD_IMAGES = {
     "bag": "images/tiles/bag.png",
@@ -26,13 +32,7 @@ FIELD_IMAGES = {
     "bracelet": "images/tiles/bracelet.png",
     "long-boot": "images/tiles/long-boot.png",
 }
-FIELD_COSTS = {
-    "bag": 30,
-    "bracelet": 20,
-    "perfume": 50,
-    "jewellery": 80,
-    "long-boot": 40
-}
+
 ARROW_IMAGES = {
     "left": "images/tiles/left-arrow.png",
     "right": "images/tiles/right-arrow.png",
@@ -68,7 +68,13 @@ ARROW_LAYOUT = [
     [["up"], ["left"], ["left"], ["left", "down"], ["left"], ["left"], ["left", "down"], ["left"], ["left"], ["down"]],
     [["up"], ["up", "left"], ["left"], ["left"], ["up", "left"], ["left"], ["left"], ["left"], ["left"], ["left"]]
 ]
-
+FIELD_COSTS = {
+    "bag": 30,
+    "bracelet": 20,
+    "perfume": 50,
+    "jewellery": 80,
+    "long-boot": 40
+}
 START_TILES = {
     (2, 2): (255, 0, 0),
     (2, 7): (255, 255, 0),
@@ -94,10 +100,11 @@ ARROW_OFFSET = {
 }
 DICE_MIN = 1
 DICE_MAX = 6
-
-HIGHLIGHT_COLOR = (0, 255, 255)
-TEXT_COLOR = (255, 255, 255)
-FONT_SIZE = 50
+DICE_SIZE = 80
+DICE_X = INFO_PANEL_X + 110
+DICE_Y = 150
+MIN_MONEY = 20
+MAX_MONEY = 80
 
 DICE_IMAGES = {
     1: "images/dice/1.png",
@@ -119,21 +126,7 @@ DICE_ROLL_FRAMES = [
 ]
 
 DICE_ROLL_SOUND = "images/dice/audio_roll_aud.mp3"
-DICE_STOP_SOUND = "images/dice/roll_stop_aud.mp3"
 
-DICE_X = INFO_PANEL_X + 110
-DICE_Y = 150
-
-TEXT_Y = 100
-BUTTON_WIDTH = 100
-BUTTON_HEIGHT = 60
-BUTTON_SPACING = 80
-BUTTON_X = SCREEN_WIDTH // 2 - BUTTON_WIDTH // 2
-TEXT_X = BUTTON_X + 35
-TEXT_OFFSET_Y = 15
-
-MIN_MONEY = 20
-MAX_MONEY = 80
 FLASH_CARD_COLORS = {
     "smiley": (255, 150, 150),
     "neutral": (255, 225, 120),

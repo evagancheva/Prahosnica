@@ -16,7 +16,7 @@ class Field:
             amount = FIELD_COSTS[self.field_type]
             player.spend_money(amount)
             loss_message = f"You buy a {self.field_type} for {amount}"
-            renderer.show_flash_card(loss_message, PURPLE)
+            renderer.show_flash_card("Purchase", loss_message, PURPLE)
 
         elif self.field_type in FLASH_CARD_COLORS:
             amount = random.randint(MIN_MONEY, MAX_MONEY)
@@ -25,20 +25,19 @@ class Field:
             if self.field_type == "smiley":
                 message = random.choice(FLASH_CARD_MESSAGES["smiley"])
                 player.spend_money(amount)
-
-                renderer.show_flash_card(f"{message} Lost {amount} coins!", card_color)
+                renderer.show_flash_card(self.field_type, f"{message} Lost {amount} coins!", card_color)
 
             elif self.field_type == "mad":
                 message = random.choice(FLASH_CARD_MESSAGES["mad"])
                 player.earn_money(amount)
-                renderer.show_flash_card(f"{message} Gained {amount} coins!", card_color)
+                renderer.show_flash_card(self.field_type, f"{message} Gained {amount} coins!", card_color)
 
             elif self.field_type == "neutral":
                 if random.choice([True, False]):
                     message = random.choice(FLASH_CARD_MESSAGES["smiley"])
                     player.spend_money(amount)
-                    renderer.show_flash_card(f"{message}\nLost {amount} coins!", card_color)
+                    renderer.show_flash_card(self.field_type, f"{message}\nLost {amount} coins!", card_color)
                 else:
                     message = random.choice(FLASH_CARD_MESSAGES["mad"])
                     player.earn_money(amount)
-                    renderer.show_flash_card(f"{message}\nGained {amount} coins!", card_color)
+                    renderer.show_flash_card(self.field_type, f"{message}\nGained {amount} coins!", card_color)

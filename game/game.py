@@ -1,9 +1,9 @@
 import pygame
+import pygame_menu
 
 from board.board import Board
 from constants import (SCREEN_WIDTH, SCREEN_HEIGHT, BEIGE, DARK_GREY, TILE_SIZE, START_TILES, INFO_PANEL_WIDTH,
-                       INFO_PANEL_X, WHITE, FONT_SIZE, TEXT_Y, BUTTON_SPACING, BUTTON_X, BUTTON_WIDTH, BUTTON_HEIGHT,
-                       TEXT_OFFSET_Y, TEXT_X, FPS)
+                       INFO_PANEL_X, FPS, GREEN)
 from game.dice import Dice
 from game.player import Player
 from utils.renderer import Renderer
@@ -22,35 +22,15 @@ class Game:
         self.running = True
 
     def choose_num_players(self):
-        # da go napravq s pygame menu-> da e po-adekvatno
-        pygame.font.init()
-        font = pygame.font.Font(None, FONT_SIZE)
-        options = [2, 3, 4]
+        menu = pygame_menu.Menu("Welcome to Prahosnica", SCREEN_WIDTH, SCREEN_HEIGHT,
+                                theme=pygame_menu.themes.THEME_BLUE)
+        menu.add.label("Choose number of players:", font_size=30)
+        drop_select = menu.add.dropselect(title="", items=[("2", 2), ("3", 3), ("4", 4)], default=0)
+        menu.add.button('Start', menu.disable)
+        menu.add.button('Exit', pygame_menu.events.EXIT)
+        menu.mainloop(self.screen)
 
-        while True:
-            self.screen.fill(DARK_GREY)
-            text = font.render("Choose players count:", True, WHITE)
-            self.screen.blit(text, (SCREEN_WIDTH // 2 - text.get_width() // 2, TEXT_Y))
-
-            buttons = []
-            for i, num in enumerate(options):
-                but_y = 200 + i * BUTTON_SPACING
-                but_rect = pygame.Rect(BUTTON_X, but_y, BUTTON_WIDTH, BUTTON_HEIGHT)
-                pygame.draw.rect(self.screen, BEIGE, but_rect)
-                text = font.render(str(num), True, DARK_GREY)
-                self.screen.blit(text, (TEXT_X, but_y + TEXT_OFFSET_Y))
-                buttons.append((but_rect, num))
-
-            pygame.display.flip()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN:
-                    for but_rect, num in buttons:
-                        if but_rect.collidepoint(event.pos):
-                            return num
+        return drop_select.get_value()[0][1]
 
     def initialize_players(self):
         start_positions = list(START_TILES.keys())[:self.num_players]
@@ -76,8 +56,7 @@ class Game:
         field = self.board.board[player.row][player.col]
         field.apply_effect(player, self.renderer)
         if player.is_winner():
-            # da dobavq neshto za pobeda
-            print(f"Player {player.id} win!")
+            self.renderer.show_flash_card("",f"Player {player.id} win!", GREEN)
             self.running = False
 
     def process_click(self):
@@ -95,7 +74,8 @@ class Game:
         if (row, col) in player.possible_moves:
             player.move_to(row, col)
             self.handle_field_effect(player)
-            self.current_player = (self.current_player + 1) % len(self.players)
+            if self.dice.value != 6:
+                self.current_player = (self.current_player + 1) % len(self.players)
             self.rolling_dice = False
 
     def handle_events(self):
