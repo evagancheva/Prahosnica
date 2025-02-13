@@ -13,6 +13,7 @@ class Renderer:
     def __init__(self, screen):
         self.screen = screen
         self.image_cache = {}
+        self.curr_flash_card =None
 
     def get_image(self, image_path, size):
         if (image_path, size) not in self.image_cache:
@@ -32,7 +33,11 @@ class Renderer:
                 arrow_y = y + TILE_SIZE // 2 + ARROW_OFFSET[direction][1] - ARROW_SIZE // 2
                 self.draw_image(arrow_img_path, arrow_x, arrow_y, ARROW_SIZE)
 
-    def draw_board(self, board):
+    def update(self):
+        if self.curr_flash_card:
+            self.curr_flash_card.update(pygame.event.get())
+
+    def draw(self, board):
         for row_index, row in enumerate(board.board):
             for col_index, field in enumerate(row):
                 x_position, y_position = col_index * TILE_SIZE, row_index * TILE_SIZE
@@ -62,18 +67,20 @@ class Renderer:
             x, y = col * TILE_SIZE, row * TILE_SIZE
             pygame.draw.rect(self.screen, HIGHLIGHT_COLOR, (x, y, TILE_SIZE, TILE_SIZE), 3)
 
+    def disable(self):
+        self.curr_flash_card = None
+
     def show_flash_card(self, card_type, text, color):
-
-        curr_theme = pygame_menu.Theme(background_color=color, title_background_color=BLACK,
-                                       title_font=pygame_menu.font.FONT_COMIC_NEUE, title_font_color=WHITE,
-                                       widget_font_color=BLACK)
-        flash_menu = pygame_menu.Menu(title=f"{card_type}", width=FLASH_CARD_WIDTH, height=FLASH_CARD_HEIGHT,
-                                      theme=curr_theme)
-
-        flash_menu.add.label(text, font_size=FONT_SIZE - 10, max_char=20, font_color=BLACK)
-        flash_menu.add.button("OK", flash_menu.disable)
-        flash_menu.mainloop(self.screen)
-
+        if not self.curr_flash_card:
+            curr_theme = pygame_menu.Theme(background_color=color, title_background_color=BLACK,
+                                           title_font=pygame_menu.font.FONT_COMIC_NEUE, title_font_color=WHITE,
+                                           widget_font_color=BLACK)
+            flash_menu = pygame_menu.Menu(title=f"{card_type}", width=FLASH_CARD_WIDTH, height=FLASH_CARD_HEIGHT,
+                                          theme=curr_theme)
+            flash_menu.add.label(text, font_size=FONT_SIZE - 10, max_char=20, font_color=BLACK)
+            flash_menu.add.button("OK", lambda:self.disable())
+            flash_menu.set_relative_position(28, 50)
+            self.curr_flash_card=flash_menu
 
 
     def render_all_players_money(self, players):
@@ -86,7 +93,7 @@ class Renderer:
             self.screen.blit(money_text, (INFO_PANEL_X + 10, y_offset))
             y_offset += 40
 
-    def render_ui(self, players, curr_player, dice):
+    def render_info_panel(self, players, curr_player, dice):
         pygame.draw.rect(self.screen, (50, 50, 50), (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, BOARD_WIDTH))
 
         player_text = FONT.render(f"Player {curr_player.id + 1}", True, PLAYER_COLORS[curr_player.id])

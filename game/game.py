@@ -43,14 +43,16 @@ class Game:
         self.screen.fill(BEIGE)
         pygame.draw.rect(self.screen, DARK_GREY, (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, SCREEN_HEIGHT))
 
-        self.renderer.draw_board(self.board)
+        self.renderer.draw(self.board)
         for player in self.players:
             player.draw(self.screen)
 
         self.renderer.highlight_possible_moves(self.players[self.current_player].possible_moves)
-        self.renderer.render_ui(self.players, self.players[self.current_player], self.dice)
+        self.renderer.render_info_panel(self.players, self.players[self.current_player], self.dice)
+
+        if self.renderer.curr_flash_card:
+            self.renderer.curr_flash_card.draw(self.screen)
         self.dice.draw(self.screen)
-        pygame.display.flip()
 
     def handle_field_effect(self, player):
         field = self.board.board[player.row][player.col]
@@ -88,8 +90,9 @@ class Game:
     def run(self):
         clock = pygame.time.Clock()
         while self.running:
+            self.renderer.update()
             self.handle_events()
             self.draw_game()
+            pygame.display.flip()
             clock.tick(FPS)
-
         pygame.quit()
