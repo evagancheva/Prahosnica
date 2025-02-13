@@ -63,15 +63,18 @@ class Renderer:
             pygame.draw.rect(self.screen, HIGHLIGHT_COLOR, (x, y, TILE_SIZE, TILE_SIZE), 3)
 
     def show_flash_card(self, card_type, text, color):
+
         curr_theme = pygame_menu.Theme(background_color=color, title_background_color=BLACK,
                                        title_font=pygame_menu.font.FONT_COMIC_NEUE, title_font_color=WHITE,
                                        widget_font_color=BLACK)
         flash_menu = pygame_menu.Menu(title=f"{card_type}", width=FLASH_CARD_WIDTH, height=FLASH_CARD_HEIGHT,
                                       theme=curr_theme)
 
-        flash_menu.add.label(text, font_size=FONT_SIZE - 10, max_char=-1, font_color=BLACK)
+        flash_menu.add.label(text, font_size=FONT_SIZE - 10, max_char=20, font_color=BLACK)
         flash_menu.add.button("OK", flash_menu.disable)
         flash_menu.mainloop(self.screen)
+
+
 
     def render_all_players_money(self, players):
         money_title = FONT.render("Player Balances:", True, (255, 255, 255))

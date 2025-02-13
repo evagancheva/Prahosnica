@@ -83,7 +83,6 @@ START_TILES = {
 
 }
 PLAYER_COLORS = list(START_TILES.values())
-
 PLAYER_START_POSITIONS = list(START_TILES.keys())
 
 NO_GRID_TILES = {
@@ -134,24 +133,47 @@ FLASH_CARD_COLORS = {
 }
 FLASH_CARD_MESSAGES = {
     "smiley": [
-        "Oh no!You bought too much ice cream!",
-        "You spent all your money on a useless gadget!",
-        "Oops!You forgot to take your change at the store!",
-        "You just HAD to order another round of pizza!",
-        "Made a ‘great’ investment in a fake cryptocurrency!",
-        "Your bet didn’t go as planned…",
-        "You found some money on the street!",
-        "A random stranger gifted you some cash!",
-
+        "Oh yes! You bought too much ice cream! Delicious loss!",
+        "You finally got rid of that useless money on a gadget!",
+        "Oops! You forgot to take your change at the store! Well spent!",
+        "You just HAD to order another round of pizza! Tasty investment!",
+        "Made a ‘great’ investment in a fake cryptocurrency! Brilliant!",
+        "Your bet didn’t go as planned… but who needs money anyway?",
+        "You gave your cash to a street artist! What a kind soul!",
+        "A random stranger scammed you! You're such a generous person!",
+        "Bought a golden spoon just because you could!",
+        "You decided to fund a squirrel’s dream to become an influencer!",
+        "Donated all your money to a ‘Make Sharks Fly’ foundation!",
+        "Signed up for a ‘Get Rich Quick’ course. Surprise! You lost money!",
+        "Splurged on an ultra-expensive invisible hat. You look amazing!",
+        "Paid a wizard to teach you magic… turns out it was just a guy in a robe.",
+        "Upgraded to VIP parking in the middle of the desert!",
+        "Bet everything on a snail race. Your snail stopped for a nap!",
+        "Bought an NFT of a potato for a ridiculous price!",
+        "Decided to buy air in a can... Premium edition!",
+        "Invested in a time machine… that only goes forward one second!",
+        "Entered a ‘win a million dollars’ contest. The entry fee was a million!"
     ],
     "mad": [
-        "Parking ticket!Pay up!",
-        "Lost your wallet… but a kind person returned it!",
-        "You found some money on the street!",
-        "You sold your old clothes for a fortune!",
-        "Your boss gave you a surprise bonus!",
-        "Someone paid big money for your childhood drawing!",
-        "Won a raffle!Lucky you!",
-        "A stranger mistook you for a celebrity and gave you a tip!",
+         "Parking ticket! Ugh, but they refunded you by mistake!",
+        "Lost your wallet… but some annoying person returned it with extra cash!",
+        "You found some money on the street... What a disaster!",
+        "You sold your old clothes for a fortune... Now you have to spend it!",
+        "Your boss gave you a surprise bonus... What an inconvenience!",
+        "Someone paid big money for your childhood drawing… Now what?",
+        "Won a raffle! Great... Now you need to get rid of these coins!",
+        "A stranger mistook you for a celebrity and gave you a tip… Nooo!",
+        "Found a bag full of money! What are you supposed to do with it?",
+        "Bank accidentally transferred money to your account... Annoying!",
+        "A millionaire decided to give you an ‘inspiring’ cash reward!",
+        "Your worst enemy just paid you to stay away from them!",
+        "You inherited money from a long-lost relative… What a disaster!",
+        "Your failed startup actually got investors… Now you have money!",
+        "Your pet hamster started a YouTube channel and got rich!",
+        "A genie granted you money instead of taking it away... Ugh!",
+        "Someone tipped you for opening a door... Why!?",
+        "Accidentally won a bet you were trying to lose...",
+        "A company accidentally paid you for a job you never did!",
+        "A vending machine glitched and gave you free cash! Noooo!"
     ]
 }
