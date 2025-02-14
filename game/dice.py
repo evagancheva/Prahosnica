@@ -8,32 +8,36 @@ from constants import (DICE_MIN, DICE_MAX, DICE_IMAGES, DICE_ROLL_FRAMES, DICE_R
 
 class Dice:
     def __init__(self):
-        self.value = None
+        self._value = None
         pygame.mixer.init()
-        self.roll_sound = pygame.mixer.Sound(DICE_ROLL_SOUND)
-        self.image_cache ={}
+        self._roll_sound = pygame.mixer.Sound(DICE_ROLL_SOUND)
+        self._image_cache = {}
+
+    @property
+    def value(self):
+        return self._value
 
     def roll(self, screen):
-        self.animate_roll(screen)
-        self.value = random.randint(DICE_MIN, DICE_MAX)
-        self.draw(screen)
+        self._animate_roll(screen)
+        self._value = random.randint(DICE_MIN, DICE_MAX)
+        self._draw(screen)
 
-    def get_image(self, image_path, size):
-        if (image_path, size) not in self.image_cache:
+    def _get_image(self, image_path, size):
+        if (image_path, size) not in self._image_cache:
             img = pygame.image.load(image_path)
-            self.image_cache[(image_path, size)] = pygame.transform.scale(img, (size, size))
-        return self.image_cache[(image_path, size)]
+            self._image_cache[(image_path, size)] = pygame.transform.scale(img, (size, size))
+        return self._image_cache[(image_path, size)]
 
-    def animate_roll(self, screen):
-        self.roll_sound.play()
+    def _animate_roll(self, screen):
+        self._roll_sound.play()
         for frame in DICE_ROLL_FRAMES:
-            img = self.get_image(frame,DICE_SIZE)
+            img = self._get_image(frame, DICE_SIZE)
             pygame.draw.rect(screen, DARK_GREY, (DICE_X, DICE_Y, DICE_SIZE, DICE_SIZE))
             screen.blit(img, (DICE_X, DICE_Y))
             pygame.display.flip()
             pygame.time.delay(100)
 
-    def draw(self, screen):
-        if self.value:
-            img = self.get_image(DICE_IMAGES[self.value],DICE_SIZE)
+    def _draw(self, screen):
+        if self._value:
+            img = self._get_image(DICE_IMAGES[self._value], DICE_SIZE)
             screen.blit(img, (DICE_X, DICE_Y))

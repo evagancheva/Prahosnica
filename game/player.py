@@ -18,10 +18,10 @@ class Player:
 
         self.possible_moves = []
 
-        def dfs(row, col, moves_left):
+        def dfs(row, col, moves_left, path):
             if moves_left == 0:
                 if (row, col) != (self.row, self.col):
-                    self.possible_moves.append((row, col))
+                    self.possible_moves.append((row, col, path.copy()))
                 return
 
             for direction in board.board[row][col].arrow_directions:
@@ -36,15 +36,32 @@ class Player:
                     new_row += 1
 
                 if 0 <= new_row < len(board.board) and 0 <= new_col < len(board.board[0]):
-                    dfs(new_row, new_col, moves_left - 1)
+                    path.append((new_row, new_col))
+                    dfs(new_row, new_col, moves_left - 1, path)
+                    path.pop()
 
-        dfs(self.row, self.col, dice_result)
+        dfs(self.row, self.col, dice_result,[(self.row, self.col)])
 
-    def move_to(self, row, col):
-        if (row, col) in self.possible_moves:
-            self.row = row
-            self.col = col
-            self.possible_moves = []
+    def animate_path(self, screen,renderer, path):
+        for new_row, new_col in path:
+            self.animate_movement(screen,renderer, new_row, new_col)
+
+    def animate_movement(self, screen,renderer, new_row, new_col):
+        renderer.update()
+        renderer.draw_game()
+        self.row, self.col = new_row, new_col
+        self.draw(screen)
+        pygame.display.flip()
+        pygame.time.delay(50)
+
+    def move_to(self, row, col, screen,renderer):
+        for move in self.possible_moves:
+            if move[:2] == (row, col):
+                path = move[2]
+                self.animate_path(screen, renderer,path)
+                self.row, self.col = row, col
+                self.possible_moves = []
+                break
 
     def draw(self, screen):
 

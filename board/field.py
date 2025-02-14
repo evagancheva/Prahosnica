@@ -15,7 +15,7 @@ class Field:
         if self.field_type in FIELD_COSTS:
             amount = FIELD_COSTS[self.field_type]
             player.spend_money(amount)
-            loss_message = f"You buy a {self.field_type} for {amount}"
+            loss_message = f"Player {player.id+1} buy a {self.field_type} for {amount}"
             renderer.show_flash_card("Purchase", loss_message, PURPLE)
 
         elif self.field_type in FLASH_CARD_COLORS:
