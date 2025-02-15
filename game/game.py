@@ -56,7 +56,7 @@ class Game:
         player = self._players[self._current_player]
 
         if (row, col) in [move[:2] for move in player.possible_moves]:
-            player.move_to(row, col, self._screen,self._renderer)
+            player.move_to(row, col, self._screen, self._renderer)
             self.handle_field_effect(player)
 
             if self._dice.value != 6:

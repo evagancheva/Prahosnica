@@ -20,7 +20,7 @@ class Dice:
     def roll(self, screen):
         self._animate_roll(screen)
         self._value = random.randint(DICE_MIN, DICE_MAX)
-        self._draw(screen)
+        self.draw(screen)
 
     def _get_image(self, image_path, size):
         if (image_path, size) not in self._image_cache:
@@ -37,7 +37,7 @@ class Dice:
             pygame.display.flip()
             pygame.time.delay(100)
 
-    def _draw(self, screen):
+    def draw(self, screen):
         if self._value:
             img = self._get_image(DICE_IMAGES[self._value], DICE_SIZE)
             screen.blit(img, (DICE_X, DICE_Y))

@@ -20,7 +20,7 @@ WHITE = (255, 255, 255)
 PURPLE = (128, 0, 128)
 BLACK = (0, 0, 0)
 HIGHLIGHT_COLOR = (0, 255, 255)
-GREEN =(0,100,0)
+GREEN = (0, 100, 0)
 
 FIELD_IMAGES = {
     "bag": "images/tiles/bag.png",
@@ -155,7 +155,7 @@ FLASH_CARD_MESSAGES = {
         "Entered a ‘win a million dollars’ contest. The entry fee was a million!"
     ],
     "mad": [
-         "Parking ticket! Ugh, but they refunded you by mistake!",
+        "Parking ticket! Ugh, but they refunded you by mistake!",
         "Lost your wallet… but some annoying person returned it with extra cash!",
         "You found some money on the street... What a disaster!",
         "You sold your old clothes for a fortune... Now you have to spend it!",

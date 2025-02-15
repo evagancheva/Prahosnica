@@ -40,13 +40,13 @@ class Player:
                     dfs(new_row, new_col, moves_left - 1, path)
                     path.pop()
 
-        dfs(self.row, self.col, dice_result,[(self.row, self.col)])
+        dfs(self.row, self.col, dice_result, [(self.row, self.col)])
 
-    def animate_path(self, screen,renderer, path):
+    def animate_path(self, screen, renderer, path):
         for new_row, new_col in path:
-            self.animate_movement(screen,renderer, new_row, new_col)
+            self.animate_movement(screen, renderer, new_row, new_col)
 
-    def animate_movement(self, screen,renderer, new_row, new_col):
+    def animate_movement(self, screen, renderer, new_row, new_col):
         renderer.update()
         renderer.draw_game()
         self.row, self.col = new_row, new_col
@@ -54,11 +54,11 @@ class Player:
         pygame.display.flip()
         pygame.time.delay(50)
 
-    def move_to(self, row, col, screen,renderer):
+    def move_to(self, row, col, screen, renderer):
         for move in self.possible_moves:
             if move[:2] == (row, col):
                 path = move[2]
-                self.animate_path(screen, renderer,path)
+                self.animate_path(screen, renderer, path)
                 self.row, self.col = row, col
                 self.possible_moves = []
                 break

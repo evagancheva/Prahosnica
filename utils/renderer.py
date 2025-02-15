@@ -89,7 +89,7 @@ class Renderer:
         self._dice.draw(self._screen)
 
     def highlight_possible_moves(self, possible_moves):
-        for row, col,_ in possible_moves:
+        for row, col, _ in possible_moves:
             x, y = col * TILE_SIZE, row * TILE_SIZE
             pygame.draw.rect(self._screen, HIGHLIGHT_COLOR, (x, y, TILE_SIZE, TILE_SIZE), 3)
 
