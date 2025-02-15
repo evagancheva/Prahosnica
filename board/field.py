@@ -5,13 +5,14 @@ from constants import FIELD_COSTS, MIN_MONEY, MAX_MONEY, FLASH_CARD_MESSAGES, FL
 
 class Field:
     def __init__(self, field_type, image, arrow_image=None, arrow_direction=None):
+        """Initialize Field oject"""
         self.field_type = field_type
         self.image = image
         self.arrow_images = arrow_image or []
         self.arrow_directions = arrow_direction or []
 
     def apply_effect(self, player, renderer):
-
+        """Handle different types of effects for fields"""
         if self.field_type in FIELD_COSTS:
             amount = FIELD_COSTS[self.field_type]
             player.spend_money(amount)

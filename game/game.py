@@ -10,6 +10,7 @@ from utils.renderer import Renderer
 
 class Game:
     def __init__(self, screen):
+        """Initialize Game object with creating Board, Dice, Renderer instances"""
         self._screen = screen
         self._board = Board()
         self._dice = Dice()
@@ -21,6 +22,7 @@ class Game:
         self._running = True
 
     def _choose_num_players(self):
+        """Create pygame menu for choosing number of players"""
         menu = pygame_menu.Menu("Welcome to Prahosnica", SCREEN_WIDTH, SCREEN_HEIGHT,
                                 theme=pygame_menu.themes.THEME_BLUE)
         menu.add.label("Choose number of players:", font_size=30)
@@ -32,6 +34,7 @@ class Game:
         return drop_select.get_value()[0][1]
 
     def _initialize_players(self):
+        """Create list of players according to chosen number"""
         start_positions = list(START_TILES.keys())[:self._num_players]
         players = []
         for i, (row, col) in enumerate(start_positions):
@@ -39,6 +42,7 @@ class Game:
         return players
 
     def handle_field_effect(self, player):
+        """Handel special effect of field and check for winner"""
         field = self._board.board[player.row][player.col]
         field.apply_effect(player, self._renderer)
         if player.is_winner():
@@ -46,12 +50,14 @@ class Game:
             self._running = False
 
     def _handle_dice_click(self):
+        """Handle dice rolling and find possible moves"""
         if not self._rolling_dice:
             self._rolling_dice = True
             self._dice.roll(self._screen)
             self._players[self._current_player].find_possible_moves(self._board, self._dice.value)
 
     def _handle_board_click(self, x, y):
+        """Handle board click and movement of player"""
         col, row = x // TILE_SIZE, y // TILE_SIZE
         player = self._players[self._current_player]
 
@@ -66,6 +72,7 @@ class Game:
             self._rolling_dice = False
 
     def process_click(self):
+        """Process mouse clicking"""
         x, y = pygame.mouse.get_pos()
 
         if x > INFO_PANEL_X:
@@ -74,6 +81,7 @@ class Game:
             self._handle_board_click(x, y)
 
     def handle_events(self):
+        """Handle pygame window events"""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self._running = False
@@ -81,6 +89,7 @@ class Game:
                 self.process_click()
 
     def run(self):
+        """Start and manage the main game loop"""
         clock = pygame.time.Clock()
         self._renderer.update_state(self._board, self._players, self._current_player, self._dice)
         while self._running:

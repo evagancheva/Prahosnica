@@ -9,6 +9,7 @@ GRID_WIDTH = 2
 
 TILE_SIZE = 80
 FONT_SIZE = 50
+FONT_SIZE_FLASH_CARDS = 30
 FPS = 60
 
 PLAYER_RADIUS = TILE_SIZE // 4
@@ -140,11 +141,9 @@ FLASH_CARD_MESSAGES = {
         "Made a ‘great’ investment in a fake cryptocurrency! Brilliant!",
         "Your bet didn’t go as planned… but who needs money anyway?",
         "You gave your cash to a street artist! What a kind soul!",
-        "A random stranger scammed you! You're such a generous person!",
+        "A random stranger scammed you! ",
         "Bought a golden spoon just because you could!",
-        "You decided to fund a squirrel’s dream to become an influencer!",
-        "Donated all your money to a ‘Make Sharks Fly’ foundation!",
-        "Signed up for a ‘Get Rich Quick’ course. Surprise! You lost money!",
+        "Donated money to a ‘Make Sharks Fly’ foundation!",
         "Splurged on an ultra-expensive invisible hat. You look amazing!",
         "Paid a wizard to teach you magic… turns out it was just a guy in a robe.",
         "Upgraded to VIP parking in the middle of the desert!",
@@ -152,7 +151,6 @@ FLASH_CARD_MESSAGES = {
         "Bought an NFT of a potato for a ridiculous price!",
         "Decided to buy air in a can... Premium edition!",
         "Invested in a time machine… that only goes forward one second!",
-        "Entered a ‘win a million dollars’ contest. The entry fee was a million!"
     ],
     "mad": [
         "Parking ticket! Ugh, but they refunded you by mistake!",
@@ -169,7 +167,6 @@ FLASH_CARD_MESSAGES = {
         "Your worst enemy just paid you to stay away from them!",
         "You inherited money from a long-lost relative… What a disaster!",
         "Your failed startup actually got investors… Now you have money!",
-        "Your pet hamster started a YouTube channel and got rich!",
         "A genie granted you money instead of taking it away... Ugh!",
         "Someone tipped you for opening a door... Why!?",
         "Accidentally won a bet you were trying to lose...",

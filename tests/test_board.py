@@ -7,14 +7,17 @@ from constants import BOARD_LAYOUT, FIELD_IMAGES, ARROW_IMAGES, ARROW_LAYOUT
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
+        """Set up a new Board instance before each test."""
         self.board = Board()
 
     def test_board_initialization(self):
+        """Test if the board is initialized with the correct dimensions."""
         self.assertEqual(len(self.board.board), len(BOARD_LAYOUT))
         for row in self.board.board:
             self.assertEqual(len(row), len(BOARD_LAYOUT))
 
     def test_create_board(self):
+        """Test if each field is properly created with the correct attributes."""
         for i in range(len(BOARD_LAYOUT)):
             for j in range(len(BOARD_LAYOUT)):
                 field = self.board.board[i][j]

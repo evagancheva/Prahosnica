@@ -5,6 +5,7 @@ from game.game import Game
 
 
 def main():
+    """Initialize pygame and window, run game"""
     pygame.init()
     window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption(f"Prahosnica {FPS}fps")

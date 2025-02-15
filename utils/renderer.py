@@ -3,7 +3,8 @@ import pygame_menu
 
 from constants import (BLACK, GRID_WIDTH, MIDDLE_IMAGE, START_TILES, NO_GRID_TILES, ARROW_SIZE, ARROW_OFFSET,
                        INFO_PANEL_WIDTH, BOARD_WIDTH, INFO_PANEL_X, FONT_SIZE, PLAYER_COLORS, TILE_SIZE,
-                       HIGHLIGHT_COLOR, SCREEN_HEIGHT, WHITE, FLASH_CARD_WIDTH, FLASH_CARD_HEIGHT, DARK_GREY, BEIGE)
+                       HIGHLIGHT_COLOR, SCREEN_HEIGHT, WHITE, FLASH_CARD_WIDTH, FLASH_CARD_HEIGHT, DARK_GREY, BEIGE,
+                       FONT_SIZE_FLASH_CARDS)
 
 pygame.font.init()
 FONT = pygame.font.Font(None, FONT_SIZE)
@@ -11,6 +12,7 @@ FONT = pygame.font.Font(None, FONT_SIZE)
 
 class Renderer:
     def __init__(self, screen):
+        """Initialize Renderer object"""
         self._screen = screen
         self._board = None
         self._players = []
@@ -20,21 +22,25 @@ class Renderer:
         self._curr_flash_card = None
 
     def update_state(self, board, players, current_player, dice):
+        """Update some of Renderer class variables"""
         self._board = board
         self._players = players
         self._current_player = current_player
         self._dice = dice
 
     def get_image(self, image_path, size):
+        """Load and cache images"""
         if (image_path, size) not in self._image_cache:
             img = pygame.image.load(image_path)
             self._image_cache[(image_path, size)] = pygame.transform.scale(img, (size, size))
         return self._image_cache[(image_path, size)]
 
     def draw_image(self, image_path, x, y, size):
+        """Visualize image from path"""
         self._screen.blit(self.get_image(image_path, size), (x, y))
 
     def draw_arrows(self, field, x, y):
+        """Visualize arrows from matrix"""
         for i in range(len(field.arrow_directions)):
             direction = field.arrow_directions[i]
             arrow_img_path = field.arrow_images[i]
@@ -44,10 +50,12 @@ class Renderer:
                 self.draw_image(arrow_img_path, arrow_x, arrow_y, ARROW_SIZE)
 
     def update(self):
+        """Update flash card"""
         if self._curr_flash_card:
             self._curr_flash_card.update(pygame.event.get())
 
     def draw(self):
+        """Visualize the whole board"""
         for row_index, row in enumerate(self._board.board):
             for col_index, field in enumerate(row):
                 x_position, y_position = col_index * TILE_SIZE, row_index * TILE_SIZE
@@ -73,6 +81,7 @@ class Renderer:
         self.draw_image(MIDDLE_IMAGE, 3 * TILE_SIZE, 3 * TILE_SIZE, TILE_SIZE * 4)
 
     def draw_game(self):
+        """Visualize the game - board, info panel and some special events"""
         self._screen.fill(BEIGE)
         pygame.draw.rect(self._screen, DARK_GREY, (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, SCREEN_HEIGHT))
         self.draw()
@@ -89,26 +98,30 @@ class Renderer:
         self._dice.draw(self._screen)
 
     def highlight_possible_moves(self, possible_moves):
+        """Highlight all possible moves from current to position + dice value"""
         for row, col, _ in possible_moves:
             x, y = col * TILE_SIZE, row * TILE_SIZE
             pygame.draw.rect(self._screen, HIGHLIGHT_COLOR, (x, y, TILE_SIZE, TILE_SIZE), 3)
 
     def disable(self):
+        """Stop flash card"""
         self._curr_flash_card = None
 
     def show_flash_card(self, card_type, text, color):
+        """Visualize flash card"""
         if not self._curr_flash_card:
             curr_theme = pygame_menu.Theme(background_color=color, title_background_color=BLACK,
                                            title_font=pygame_menu.font.FONT_COMIC_NEUE, title_font_color=WHITE,
                                            widget_font_color=BLACK)
             flash_menu = pygame_menu.Menu(title=f"{card_type}", width=FLASH_CARD_WIDTH, height=FLASH_CARD_HEIGHT,
                                           theme=curr_theme)
-            flash_menu.add.label(text, font_size=FONT_SIZE - 10, max_char=20, font_color=BLACK)
+            flash_menu.add.label(text, font_size=FONT_SIZE_FLASH_CARDS, max_char=30, font_color=BLACK)
             flash_menu.add.button("OK", lambda: self.disable())
             flash_menu.set_relative_position(28, 50)
             self._curr_flash_card = flash_menu
 
     def render_all_players_money(self, players):
+        """Visualize players money in info panel"""
         money_title = FONT.render("Player Balances:", True, (255, 255, 255))
         self._screen.blit(money_title, (INFO_PANEL_X + 10, SCREEN_HEIGHT - 300))
 
@@ -119,6 +132,7 @@ class Renderer:
             y_offset += 40
 
     def render_info_panel(self, players, curr_player, dice):
+        """Visualize info panel"""
         pygame.draw.rect(self._screen, (50, 50, 50), (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, BOARD_WIDTH))
 
         player_text = FONT.render(f"Player {curr_player.id + 1}", True, PLAYER_COLORS[curr_player.id])

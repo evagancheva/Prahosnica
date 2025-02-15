@@ -6,6 +6,7 @@ from game.game import Game
 
 class TestGame(unittest.TestCase):
     def setUp(self):
+        """Set up the Game instance"""
         sound_patcher = patch('pygame.mixer.Sound', return_value=MagicMock())
         sound_patcher.start()
         self.addCleanup(sound_patcher.stop)
@@ -27,12 +28,14 @@ class TestGame(unittest.TestCase):
             player.move_to = MagicMock()
 
     def test_dice_roll_called(self):
+        """Test if clicking the dice triggers the roll function"""
         self.game._rolling_dice = False
         self.game._handle_dice_click()
         self.assertTrue(self.game._rolling_dice)
         self.game._dice.roll.assert_called_once_with(self.mock_screen)
 
     def test_field_effect_winner(self):
+        """test if player win the game stop"""
         player = self.game._players[0]
         player.is_winner = MagicMock(return_value=True)
         self.game.handle_field_effect(player)

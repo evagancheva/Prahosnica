@@ -4,10 +4,12 @@ from constants import FIELD_IMAGES, ARROW_IMAGES, BOARD_LAYOUT, ARROW_LAYOUT
 
 class Board:
     def __init__(self):
+        """Initialize board"""
         self._grid_size = len(BOARD_LAYOUT)
-        self.board = self.create_board()
+        self.board = self._create_board()
 
-    def create_board(self):
+    def _create_board(self):
+        """Function that create board from Fields"""
         board = []
         for i in range(self._grid_size):
             row = []

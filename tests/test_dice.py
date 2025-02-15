@@ -9,6 +9,7 @@ from game.dice import Dice
 
 class TestDice(unittest.TestCase):
     def setUp(self):
+        """Set up the test environment for Dice"""
         pygame.init()
         self.screen = pygame.Surface((640, 480))
         self.mixer_init_patcher = patch('pygame.mixer.init')
@@ -23,6 +24,7 @@ class TestDice(unittest.TestCase):
         self.dice = Dice()
 
     def test_roll_sets_value_and_calls_methods(self):
+        """Test that rolling the dice updates its value and calls animation and draw methods"""
         with (patch('random.randint', return_value=4) as mock_randint, patch.object(self.dice, '_animate_roll')
         as mock_animate_roll, patch.object(self.dice, 'draw') as mock_draw):
             self.dice.roll(self.screen)
@@ -32,6 +34,7 @@ class TestDice(unittest.TestCase):
             self.assertEqual(self.dice.value, 4)
 
     def test_get_image_caches_images(self):
+        """Test that the Dice class caches images"""
         dummy_surface = pygame.Surface((DICE_SIZE, DICE_SIZE))
 
         with patch('pygame.image.load', return_value=dummy_surface) as mock_load, patch('pygame.transform.scale',
@@ -42,12 +45,14 @@ class TestDice(unittest.TestCase):
             self.assertIs(image1, image2)
 
     def test_draw_does_not_draw_when_no_value(self):
+        """Test that draw() does nothing if the dice has no rolled value"""
         self.dice._value = None
         with patch.object(self.dice, '_get_image') as mock_get_image:
             self.dice.draw(self.screen)
             mock_get_image.assert_not_called()
 
     def test_draw_draws_correct_image_when_value_set(self):
+        """Test if draw() get correct image"""
         self.dice._value = DICE_MIN
         dummy_surface = pygame.Surface((DICE_SIZE, DICE_SIZE))
 
@@ -59,6 +64,7 @@ class TestDice(unittest.TestCase):
             mock_screen.blit.assert_called_once_with(dummy_surface, (DICE_X, DICE_Y))
 
     def test_animate_roll_plays_sound_and_draws_frames(self):
+        """Test dice rolling animation sound and picture drawing """
         dummy_surface = pygame.Surface((DICE_SIZE, DICE_SIZE))
         with patch.object(self.dice, '_get_image', return_value=dummy_surface) as mock_get_image, patch(
                 'pygame.draw.rect') as mock_draw_rect, patch('pygame.display.flip') as mock_flip, patch(

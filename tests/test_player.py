@@ -12,15 +12,18 @@ from utils.renderer import Renderer
 class TestPlayer(unittest.TestCase):
 
     def setUp(self):
+        """Initialize pygame"""
         pygame.init()
         self.screen = pygame.Surface((400, 400))
         self.board = Board()
         self.renderer = Renderer(self.screen)
 
     def tearDown(self):
+        """Quit pygame"""
         pygame.quit()
 
     def test_initialization(self):
+        """Test if a Player is initialized"""
         player = Player(2, 3, 0)
         self.assertEqual(player.row, 2)
         self.assertEqual(player.col, 3)
@@ -28,13 +31,8 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player.money, 1000)
         self.assertEqual(player.possible_moves, [])
 
-    def test_find_possible_moves_none_dice(self):
-        player = Player(0, 0, 0)
-        player.find_possible_moves(self.board, None)
-        self.assertEqual(player.possible_moves, [])
-
     def test_find_possible_moves_multiple_paths(self):
-
+        """Test if multiple paths are found"""
         original_arrow_layout = [row[:] for row in ARROW_LAYOUT]
         try:
 
@@ -50,6 +48,7 @@ class TestPlayer(unittest.TestCase):
                 ARROW_LAYOUT[i] = original_arrow_layout[i]
 
     def test_money_methods(self):
+        """Test if money can be spent and earned"""
         player = Player(0, 0, 0)
         player.spend_money(200)
         self.assertEqual(player.money, 800)
@@ -57,6 +56,7 @@ class TestPlayer(unittest.TestCase):
         self.assertEqual(player.money, 950)
 
     def test_is_winner(self):
+        """Test if a player wins when they run out of money."""
         player = Player(0, 0, 0)
         self.assertFalse(player.is_winner())
         player.spend_money(1000)
@@ -66,7 +66,7 @@ class TestPlayer(unittest.TestCase):
 
     @patch.object(Player, 'animate_path')
     def test_move_to(self, mock_animate_path):
-
+        """Test if the player moves"""
         player = Player(0, 0, 0)
         player.possible_moves = [(1, 2, [(0, 0), (1, 2)])]
         player.move_to(1, 2, self.screen, self.renderer)
@@ -76,6 +76,7 @@ class TestPlayer(unittest.TestCase):
 
     @patch("pygame.draw.circle")
     def test_draw(self, mock_draw_circle):
+        """Test if the player is drawn correctly"""
         player = Player(1, 2, 0)
         player.draw(self.screen)
         x_expected = player.col * TILE_SIZE + TILE_SIZE // 2

@@ -8,11 +8,13 @@ from utils.renderer import Renderer
 
 class TestRenderer(unittest.TestCase):
     def setUp(self):
+        """Initialize Pygame"""
         pygame.init()
         self.screen = pygame.Surface((800, 600))
         self.renderer = Renderer(self.screen)
 
     def test_update_state(self):
+        """Test if renderer update variables correctly"""
         board_mock = Mock()
         players_mock = [Mock(), Mock()]
         current_player_mock = 0
@@ -26,6 +28,7 @@ class TestRenderer(unittest.TestCase):
 
     @patch("pygame.image.load")
     def test_get_image_caching(self, mock_load):
+        """Test image cache"""
         mock_load.return_value = pygame.Surface((100, 100))
         image_path = "test_image.png"
         size = 50
@@ -38,6 +41,7 @@ class TestRenderer(unittest.TestCase):
 
     @patch.object(Renderer, "draw_image")
     def test_draw_arrows(self, mock_draw_image):
+        """Test arrow drawing"""
         field_mock = Mock()
         field_mock.arrow_directions = ["up"]
         field_mock.arrow_images = ["arrow_up.png"]
@@ -50,6 +54,7 @@ class TestRenderer(unittest.TestCase):
     @patch.object(Renderer, "highlight_possible_moves")
     @patch.object(Renderer, "render_info_panel")
     def test_draw_game(self, mock_render_info, mock_highlight_moves, mock_draw):
+        """Test if the game is drawn"""
         player_mock = Mock()
         player_mock.possible_moves = [(1, 1, None)]
         self.renderer._players = [player_mock]
@@ -63,11 +68,13 @@ class TestRenderer(unittest.TestCase):
         mock_render_info.assert_called_once()
 
     def test_disable(self):
+        """Test disable function"""
         self.renderer._curr_flash_card = Mock()
         self.renderer.disable()
         self.assertIsNone(self.renderer._curr_flash_card)
 
     def tearDown(self):
+        """Quit pygame"""
         pygame.quit()
 
 
