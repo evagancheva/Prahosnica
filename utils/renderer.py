@@ -122,7 +122,7 @@ class Renderer:
 
     def render_all_players_money(self, players):
         """Visualize players money in info panel"""
-        money_title = FONT.render("Player Balances:", True, (255, 255, 255))
+        money_title = FONT.render("Player Balances:", True, WHITE)
         self._screen.blit(money_title, (INFO_PANEL_X + 10, SCREEN_HEIGHT - 300))
 
         y_offset = SCREEN_HEIGHT - 260
@@ -133,7 +133,7 @@ class Renderer:
 
     def render_info_panel(self, players, curr_player, dice):
         """Visualize info panel"""
-        pygame.draw.rect(self._screen, (50, 50, 50), (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, BOARD_WIDTH))
+        pygame.draw.rect(self._screen, DARK_GREY, (INFO_PANEL_X, 0, INFO_PANEL_WIDTH, BOARD_WIDTH))
 
         player_text = FONT.render(f"Player {curr_player.id + 1}", True, PLAYER_COLORS[curr_player.id])
         self._screen.blit(player_text, (INFO_PANEL_X + 50, 50))

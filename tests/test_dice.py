@@ -24,7 +24,7 @@ class TestDice(unittest.TestCase):
         self.dice = Dice()
 
     def test_roll_sets_value_and_calls_methods(self):
-        """Test that rolling the dice updates its value and calls animation and draw methods"""
+        """Test if rolling the dice updates its value and calls animation and draw methods"""
         with (patch('random.randint', return_value=4) as mock_randint, patch.object(self.dice, '_animate_roll')
         as mock_animate_roll, patch.object(self.dice, 'draw') as mock_draw):
             self.dice.roll(self.screen)
@@ -34,18 +34,18 @@ class TestDice(unittest.TestCase):
             self.assertEqual(self.dice.value, 4)
 
     def test_get_image_caches_images(self):
-        """Test that the Dice class caches images"""
-        dummy_surface = pygame.Surface((DICE_SIZE, DICE_SIZE))
+        """Test if the Dice class caches images"""
+        surface = pygame.Surface((DICE_SIZE, DICE_SIZE))
 
-        with patch('pygame.image.load', return_value=dummy_surface) as mock_load, patch('pygame.transform.scale',
-                                                                                        return_value=dummy_surface) as mock_scale:
-            image1 = self.dice._get_image("dummy_path.png", DICE_SIZE)
-            image2 = self.dice._get_image("dummy_path.png", DICE_SIZE)
-            mock_load.assert_called_once_with("dummy_path.png")
+        with patch('pygame.image.load', return_value=surface) as mock_load, patch('pygame.transform.scale',
+                                                                                        return_value=surface) as mock_scale:
+            image1 = self.dice._get_image("path.png", DICE_SIZE)
+            image2 = self.dice._get_image("path.png", DICE_SIZE)
+            mock_load.assert_called_once_with("path.png")
             self.assertIs(image1, image2)
 
     def test_draw_does_not_draw_when_no_value(self):
-        """Test that draw() does nothing if the dice has no rolled value"""
+        """Test if draw() does nothing if the dice has no rolled value"""
         self.dice._value = None
         with patch.object(self.dice, '_get_image') as mock_get_image:
             self.dice.draw(self.screen)
